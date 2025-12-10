@@ -1,56 +1,104 @@
-# state.py
-# Manejo del estado global del juego
-
-from config import DIFFICULTY_CONFIG
+# state.py — Estado global del juego (incluye multijugador)
 import time
+from config import DIFFICULTY_CONFIG
 
-# Estado inicial del juego
 state = {
-    "screen_state": "menu",  # "menu", "howto", "playing"
+
+    # -------------------------
+    # 🔵 PANTALLAS DEL JUEGO
+    # -------------------------
+    "screen_state": "menu",          # menu, howto, multiplayer_menu, playing
+
+    # -------------------------
+    # ⚙ DIFICULTAD
+    # -------------------------
     "difficulty": "medium",
 
-    # Barcos y disparos
+    # -------------------------
+    # 🚢 BARCOS Y DISPAROS
+    # -------------------------
     "ships": [],
     "hits": [],
     "misses": [],
 
-    # Modo avanzado (colocar barcos manualmente)
-    "placing_ships": False,     # ← NUEVO
-    "ships_to_place": 0,        # ← NUEVO
+    # -------------------------
+    # ⚙ MODO AVANZADO (colocar barcos)
+    # -------------------------
+    "placing_ships": False,
+    "ships_to_place": 0,
 
-    # Vidas y progreso
+    # -------------------------
+    # ❤️ VIDAS Y PROGRESO
+    # -------------------------
     "lives": 0,
     "max_lives": 0,
     "attempts": 0,
 
-    # Pistas
+    # -------------------------
+    # 💡 PISTAS
+    # -------------------------
     "hints_used": 0,
     "active_hint_index": 0,
     "selected_ship_index": 0,
 
-    # Animaciones y efectos
+    # -------------------------
+    # ✨ ANIMACIONES
+    # -------------------------
     "animating": [],
     "flash_effects": [],
     "cursor_show": True,
     "last_cursor_toggle": time.time(),
 
-    # Entrada del jugador
+    # -------------------------
+    # ⌨ ENTRADA DEL JUGADOR
+    # -------------------------
     "input_x": "",
     "input_y": "",
-    "input_function": "",  
-    "active_func": "",      
-    "active_field": None,   
+    "input_function": "",
+    "active_func": "",    
+    "active_field": None,
 
-    # Mensaje de estado
+    # -------------------------
+    # 📝 MENSAJES
+    # -------------------------
     "msg": "",
 
-    # Flags de fin de juego
+    # -------------------------
+    # 🏁 ESTADO FINAL
+    # -------------------------
     "victoria": False,
     "derrota": False,
 
-    # Depuración / modo simulación
+    # -------------------------
+    # 🔍 DEPURACIÓN
+    # -------------------------
     "reveal_ships": False,
     "show_ships": False,
+
+    # ==========================================================
+    # 🔥 MULTIJUGADOR — NUEVO BLOQUE COMPLETO
+    # ==========================================================
+
+    # ¿Estamos en modo multijugador?
+    "multiplayer_mode": None,       # "create", "join", None
+    "mp_initialized": False,
+
+    # Info de Firebase
+    "firebase_uid": None,
+
+    # Información de la sala
+    "game_id": None,
+    "player_id": None,              # player1 o player2
+
+    # Turnos
+    "current_turn": "player1",      # por defecto
+
+    # Disparos recibidos de Firebase
+    "remote_shots": [],
+
+    # Chat en tiempo real
+    "chat_messages": [],
+    "chat_input": "",
 }
 
 # -------------------------------------------------
@@ -77,30 +125,38 @@ def reset_state():
     state["max_lives"] = cfg["lives"]
     state["lives"] = cfg["lives"]
 
-    # Entradas del usuario
+    # Entradas
     state["input_x"] = ""
     state["input_y"] = ""
     state["input_function"] = ""
     state["active_func"] = ""
     state["active_field"] = None
 
-    # Mensajes y flags
+    # Mensajes
     state["msg"] = "Juego reiniciado."
     state["victoria"] = False
     state["derrota"] = False
 
-    # Animaciones
+    # Efectos
     state["flash_effects"] = []
     state["animating"] = []
-
-    # Cursor visual
     state["cursor_show"] = True
 
-    # Modo revelado
+    # Depuración
     state["reveal_ships"] = False
 
-    # 🔥 Reiniciar modo avanzado
+    # Avanzado
     state["placing_ships"] = False
     state["ships_to_place"] = 0
+
+    # -------------------------
+    # 🔥 MULTIJUGADOR
+    # -------------------------
+    state["remote_shots"] = []
+    state["chat_messages"] = []
+    state["chat_input"] = ""
+    # turnos NO se reinician si es modo online
+    if state.get("multiplayer_mode"):
+        state["msg"] = "Esperando al otro jugador..."
 
     return state

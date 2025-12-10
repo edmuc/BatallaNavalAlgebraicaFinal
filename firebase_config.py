@@ -1,3 +1,4 @@
+#firebase_config.py
 import pyrebase
 
 firebaseConfig = {
