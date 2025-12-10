@@ -21,7 +21,7 @@ _listener_lock = threading.Lock()
 
 
 # ============================================
-#  🔵 CREAR SALA (resetea sala 1 o 2)
+#   CREAR SALA (resetea sala 1 o 2)
 # ============================================
 def create_match(player_email: str, sala: str):
     """
@@ -64,7 +64,7 @@ def create_match(player_email: str, sala: str):
 
 
 # ============================================
-#  🟢 UNIRSE A SALA (1 o 2)
+#  UNIRSE A SALA (1 o 2)
 # ============================================
 def join_match(sala: str, player_email: str):
     """
@@ -106,7 +106,7 @@ def join_match(sala: str, player_email: str):
 
 
 # ============================================
-#  🟡 SUBIR MIS BARCOS (ahora no-bloqueante)
+#   SUBIR MIS BARCOS (ahora no-bloqueante)
 # ============================================
 def upload_my_ships():
     """
@@ -146,7 +146,7 @@ def upload_my_ships():
 
 
 # ============================================
-#  🔴 ENVIAR DISPARO (no-bloqueante)
+#   ENVIAR DISPARO (no-bloqueante)
 # ============================================
 def send_shot(x, y, hit: bool, curve=None):
     """
@@ -187,7 +187,7 @@ def send_shot(x, y, hit: bool, curve=None):
 
 
 # ============================================
-#  🔍 LISTENER DE PARTIDA (corre en thread seguro)
+#   LISTENER DE PARTIDA (corre en thread seguro)
 # ============================================
 def start_listener():
     """
@@ -290,7 +290,7 @@ def start_listener():
 
 
 # ============================================
-#  🔥 VERIFICAR SI PERDÍ
+#   VERIFICAR SI PERDÍ
 # ============================================
 def check_my_defeat():
     my_ships = state.get("ships", [])
@@ -326,7 +326,7 @@ def check_my_defeat():
 
 
 # ============================================
-#  🟣 DETENER LISTENER
+#   DETENER LISTENER
 # ============================================
 def stop_listener(timeout=1.0):
     """
@@ -351,3 +351,4 @@ def stop_listener(timeout=1.0):
     _listener_thread = None
     state["connected"] = False
     print("🔴 Listener detenido.")
+
